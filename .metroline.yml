@@ -1,0 +1,18 @@
+version: '1'
+image: node:12-alpine
+jobs:
+  release:
+    script:
+      # install ssh and add ssh key for semantic-release
+      - 'which ssh-agent || apk add openssh'
+      - eval $(ssh-agent -s)
+      - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+      - mkdir -p ~/.ssh
+      - chmod 700 ~/.ssh
+      # setup git
+      - apk add git
+      - git config user.name "semantic-release"
+      - git config user.email "release@metroline.io"
+      # install deps and release
+      - npm i
+      - npm run release -- --no-ci --repositoryUrl $METROLINE_REPO_URL_SSH
