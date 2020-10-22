@@ -60,7 +60,7 @@ yargs
 
     if (semVersion.prerelease && semVersion.prerelease.length > 0) {
       tags.push(`${versionTag}${tagSuffix}`);
-      tags.push(`next${tagSuffix}`);
+      tags.push(`${semVersion.prerelease[0]}${tagSuffix}`);
     } else {
       tags.push(`${semVersion.major}${tagSuffix}`);
       tags.push(`${semVersion.major}.${semVersion.minor}${tagSuffix}`);
