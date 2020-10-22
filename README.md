@@ -10,6 +10,16 @@ $ npx docker-semver-tags --sourceImage metroline/metroline --versionTag 1.0.0
 🏷️ metroline/metroline:latest
 ```
 
+Dry-run (just log the versions, don't build / push them):
+
+```shell script
+$ npx docker-semver-tags --sourceImage metroline/metroline --versionTag 1.0.0 --dryRun
+🏷️ metroline/metroline:1.0.0
+🏷️ metroline/metroline:1.0
+🏷️ metroline/metroline:1
+🏷️ metroline/metroline:latest
+```
+
 Use a suffix:
 
 ```shell script

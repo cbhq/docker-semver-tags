@@ -14,7 +14,6 @@ yargs
     type: 'string',
   })
   .option('targetImage', {
-    demandOption: false,
     description: 'Name of the target docker image. Example: "metroline/ui"',
     type: 'string',
   })
@@ -24,19 +23,26 @@ yargs
     type: 'string',
   })
   .option('suffix', {
-    demandOption: false,
     description: 'Example: "-alpine"',
     type: 'string',
   })
   .option('latest', {
-    demandOption: false,
     description: 'Whether the "latest" tag should be created',
     type: 'boolean',
     default: true,
   })
+  .option('dryRun', {
+    description: 'Just log the image tags that would be published',
+    type: 'boolean',
+    default: false,
+  })
   .command('*', 'Create semver tags', (yargs) => {
 
-  }, ({sourceImage, targetImage, versionTag, suffix, latest}) => {
+  }, ({sourceImage, targetImage, versionTag, suffix, latest, dryRun}) => {
+    if (dryRun) {
+      console.log(chalk.blue('Dry run enabled, will not build or publish images'));
+    }
+
     if (!semver.valid(versionTag)) {
       console.log(`${versionTag} is not semver valid`);
       return;
@@ -71,8 +77,10 @@ yargs
 
     for (let nameAndTag of nameAndTags) {
       console.log(`🏷️ ${chalk.bold(nameAndTag)}`);
-      exec(`docker tag ${sourceImage} ${nameAndTag}`);
-      exec(`docker push ${nameAndTag}`);
+      if (!dryRun) {
+        exec(`docker tag ${sourceImage} ${nameAndTag}`);
+        exec(`docker push ${nameAndTag}`);
+      }
     }
   })
   .argv;
