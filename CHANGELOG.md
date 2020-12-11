@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/cbhq/docker-semver-tags/compare/v1.1.0...v1.2.0) (2020-12-11)
+
+
+### Features
+
+* option to skip version but keep channel for prerelease ([bec8439](https://github.com/cbhq/docker-semver-tags/commit/bec8439c739037d4d8311060cddc4d46d83934a9))
+
 # [1.1.0](https://github.com/metroline/docker-semver-tags/compare/v1.0.0...v1.1.0) (2020-10-22)
 
 
