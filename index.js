@@ -36,9 +36,14 @@ yargs
     type: 'boolean',
     default: false,
   })
+  .option('channelOnly', {
+    description: 'For pre-releases, only publish the release channel. For exemple, with v1.0.0-rc.1, only the "rc" tag will be published. Without this option, you would have both tags "1.0.0-rc.1" and "rc"',
+    type: 'boolean',
+    default: false,
+  })
   .command('*', 'Create semver tags', (yargs) => {
 
-  }, ({sourceImage, targetImage, versionTag, suffix, latest, dryRun}) => {
+  }, ({sourceImage, targetImage, versionTag, suffix, latest, dryRun, channelOnly}) => {
     if (dryRun) {
       console.log(chalk.blue('Dry run enabled, will not build or publish images'));
     }
@@ -59,7 +64,9 @@ yargs
     const tagSuffix = suffix ? '-' + suffix : '';
 
     if (semVersion.prerelease && semVersion.prerelease.length > 0) {
-      tags.push(`${versionTag}${tagSuffix}`);
+      if (!channelOnly) {
+        tags.push(`${versionTag}${tagSuffix}`);
+      }
       tags.push(`${semVersion.prerelease[0]}${tagSuffix}`);
     } else {
       tags.push(`${semVersion.major}${tagSuffix}`);
